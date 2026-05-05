@@ -3,64 +3,110 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Undangan Ilmy & Sumai</title>
+  <title>Undangan Ilmy & Suami</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom, #fff, #f7e7ce);
+      font-family: Arial, sans-serif;
       text-align: center;
+      background: #fdf6f0;
     }
-    .container {
+    .cover, .section {
       padding: 40px 20px;
     }
-    h1 { font-size: 2.5em; }
-    .guest {
-      font-size: 1.5em;
-      color: #b8860b;
-      margin-top: 10px;
-    }
-    .card {
-      background: white;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 15px;
-      max-width: 400px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
+    .hidden { display: none; }
+    img { max-width: 100%; border-radius: 12px; }
     .btn {
       display: inline-block;
-      padding: 10px 20px;
-      background: #b8860b;
+      padding: 12px 20px;
+      background: #c59d5f;
       color: white;
-      border-radius: 8px;
+      border-radius: 10px;
       text-decoration: none;
-      margin-top: 15px;
+      margin-top: 20px;
+      cursor: pointer;
     }
+    h1, h2 { margin: 10px 0; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>Undangan Pernikahan</h1>
-      <p>Kami mengundang Anda untuk hadir di acara pernikahan</p>
-      <h2>Ilmy & Sumai</h2>
-      <p class="guest" id="guestName">Tamu Undangan</p>
-      <p>Hari/Tanggal: Minggu, 10 Januari 2027</p>
-      <p>Lokasi: Gedung Serbaguna</p>
-      <a class="btn" href="#">Buka Lokasi</a>
-    </div>
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <p><i>The Wedding Of</i></p>
+  <img src="https://via.placeholder.com/400x250" alt="gambar" />
+  <h1><i>Ilmy dan Suami</i></h1>
+  <p>Kepada Yth Bapak/Ibu/Saudara/i</p>
+  <h2 id="guestName">Tamu Undangan</h2>
+  <div class="btn" onclick="openInvitation()">📩 Buka Undangan</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main" class="hidden">
+
+  <!-- Halaman Utama -->
+  <div class="section">
+    <h1>Selamat Datang</h1>
+    <p>Kami mengundang Anda ke pernikahan kami</p>
   </div>
 
-  <script>
-    // Ambil nama dari URL ?to=Nama
-    const urlParams = new URLSearchParams(window.location.search);
-    const guest = urlParams.get('to');
+  <!-- Mempelai -->
+  <div class="section">
+    <h2>Mempelai</h2>
+    <p><b>Suami</b><br>Putra dari Bapak & Ibu</p>
+    <p><b>Istri</b><br>Putri dari Bapak & Ibu</p>
+  </div>
 
-    if (guest) {
-      document.getElementById('guestName').innerText = guest;
-    }
-  </script>
+  <!-- Jadwal + Countdown -->
+  <div class="section">
+    <h2>Acara</h2>
+    <p>Minggu, 10 Januari 2027</p>
+    <h3 id="countdown"></h3>
+  </div>
+
+  <!-- Lokasi -->
+  <div class="section">
+    <h2>Lokasi</h2>
+    <a class="btn" href="https://www.google.com/maps/place/ZAHRA+MEDIKA+HOSPITAL/@-0.5213684,101.5361373,537m/data=!3m1!1e3!4m6!3m5!1s0x2e2a4de4dd65bee5:0x84d6ea72dbbf030f!8m2!3d-0.5216211!4d101.5371985!16s%2Fg%2F11c60zy5hw?hl=en&entry=ttu" target="_blank">📍 Buka Google Maps</a>
+  </div>
+
+</div>
+
+<!-- Musik -->
+<audio id="music" loop>
+  <source src="westlife.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  // Ambil nama tamu dari URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const guest = urlParams.get('to');
+  if (guest) {
+    document.getElementById('guestName').innerText = guest;
+  }
+
+  function openInvitation() {
+    document.getElementById('cover').style.display = 'none';
+    document.getElementById('main').classList.remove('hidden');
+    document.getElementById('music').play();
+  }
+
+  // Countdown
+  const targetDate = new Date("Jan 10, 2027 10:00:00").getTime();
+  const countdownEl = document.getElementById("countdown");
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
+
+    countdownEl.innerHTML = `${days} hari ${hours} jam ${minutes} menit ${seconds} detik`;
+  }, 1000);
+</script>
+
 </body>
 </html>
